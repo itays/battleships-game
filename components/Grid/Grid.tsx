@@ -1,6 +1,4 @@
 import React from "react";
-import styles from "./Grid.module.css";
-console.log(styles);
 
 type GridProps = {
   type: string;
@@ -8,10 +6,11 @@ type GridProps = {
 
 const Grid: React.FC<GridProps> = (props) => {
   const { type, ...rest } = props;
+  const bg = type === "user" ? "bg-blue-500" : "bg-lime-500";
   return (
-    <div className={[styles.grid, styles[`grid_${type}`]].join(" ")} {...rest}>
-      <div className={styles.grid_item}></div>
-      <div className={styles.grid_item}></div>
+    <div className={`flex flex-wrap w-[400px] h-[400px] ${bg}`} {...rest}>
+      <div className="w-10 h-10 bg-red-500"></div>
+      <div className="w-10 h-10 bg-red-500"></div>
     </div>
   );
 };

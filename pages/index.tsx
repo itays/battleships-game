@@ -1,10 +1,20 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import styles from "../styles/Home.module.css";
 import GameInfo from "../components/GameInfo/GameInfo";
 import Grid from "../components/Grid/Grid";
+import { ShipProps, Ship } from "../components/Ship";
 
 const Home: NextPage = () => {
+  function renderShips() {
+    const ships: ShipProps[] = [
+      { shipName: "destroyer_container", size: 2, bg: "bg-orange-500" },
+      { shipName: "submarine_container", size: 3, bg: "bg-pink-500" },
+      { shipName: "cruiser_container", size: 3, bg: "bg-purple-500" },
+      { shipName: "battleship_container", size: 4, bg: "bg-teal-500" },
+      { shipName: "carrier_container", size: 5, bg: "bg-green-500" },
+    ];
+    return ships.map((props, index) => <Ship key={index} {...props} />);
+  }
   return (
     <>
       <Head>
@@ -12,65 +22,15 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className={styles.main}>
-        <div className={styles.container}>
+      <main>
+        <div className="flex ">
           <Grid data-test="user_grid" type="user" />
           <Grid data-test="comp_grid" type="comp" />
         </div>
         <GameInfo />
       </main>
-      <div className={styles.grid_display}>
-        <div
-          data-test="destroyer_container"
-          className={[styles.ship, styles.destroyer_container].join(" ")}
-          draggable
-        >
-          <div id="destroyer_0" className={styles.ship_cell}></div>
-          <div id="destroyer_1" className={styles.ship_cell}></div>
-        </div>
-
-        <div
-          data-test="submarine_container"
-          className={[styles.ship, styles.submarine_container].join(" ")}
-          draggable
-        >
-          <div id="submarine_0" className={styles.ship_cell}></div>
-          <div id="submarine_1" className={styles.ship_cell}></div>
-          <div id="submarine_2" className={styles.ship_cell}></div>
-        </div>
-
-        <div
-          data-test="cruiser_container"
-          className={[styles.ship, styles.cruiser_container].join(" ")}
-          draggable
-        >
-          <div id="cruiser_0" className={styles.ship_cell}></div>
-          <div id="cruiser_1" className={styles.ship_cell}></div>
-          <div id="cruiser_2" className={styles.ship_cell}></div>
-        </div>
-
-        <div
-          data-test="battleship_container"
-          className={[styles.ship, styles.battleship_container].join(" ")}
-          draggable
-        >
-          <div id="battleship_0" className={styles.ship_cell}></div>
-          <div id="battleship_1" className={styles.ship_cell}></div>
-          <div id="battleship_2" className={styles.ship_cell}></div>
-          <div id="battleship_3" className={styles.ship_cell}></div>
-        </div>
-
-        <div
-          data-test="carrier_container"
-          className={[styles.ship, styles.carrier_container].join(" ")}
-          draggable
-        >
-          <div id="carrier_0" className={styles.ship_cell}></div>
-          <div id="carrier_1" className={styles.ship_cell}></div>
-          <div id="carrier_2" className={styles.ship_cell}></div>
-          <div id="carrier_3" className={styles.ship_cell}></div>
-          <div id="carrier_4" className={styles.ship_cell}></div>
-        </div>
+      <div className="m-5 bg-yellow-500 w-[400px] h-[400px]">
+        {renderShips()}
       </div>
     </>
   );
