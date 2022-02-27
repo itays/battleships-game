@@ -3,7 +3,7 @@ import Grid from "./Grid";
 
 describe("Grid", () => {
   it("should render", () => {
-    const { container } = render(<Grid />);
+    const { container } = render(<Grid type="user" />);
     expect(container).toBeInTheDocument();
   });
 });

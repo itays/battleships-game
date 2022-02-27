@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 type GridProps = {
   type: string;
@@ -6,11 +6,34 @@ type GridProps = {
 
 const Grid: React.FC<GridProps> = (props) => {
   const { type, ...rest } = props;
-  const bg = type === "user" ? "bg-blue-500" : "bg-lime-500";
+  const squaresContainerEl = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    console.log(squaresContainerEl.current);
+  }, []);
+
+  function renderGridCells() {
+    return new Array(100)
+      .fill(null)
+      .map((_, index) => (
+        <div
+          key={index}
+          data-test={`grid_cell_${index}`}
+          data-index={`${index + 1}`}
+          className="w-10 h-10 border border-dashed cursor-pointer"
+        />
+      ));
+  }
+
   return (
-    <div className={`flex flex-wrap w-[400px] h-[400px] ${bg}`} {...rest}>
-      <div className="w-10 h-10 bg-red-500"></div>
-      <div className="w-10 h-10 bg-red-500"></div>
+    <div>
+      <h3 className="capitalize">{type} grid</h3>
+      <div
+        className={`grid grid-cols-10 w-[400px] h-[400px] bg-blue-500`}
+        {...rest}
+        ref={squaresContainerEl}
+      >
+        {renderGridCells()}
+      </div>
     </div>
   );
 };
