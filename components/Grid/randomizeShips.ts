@@ -1,9 +1,4 @@
-export type Ship = {
-  size: number;
-  name: string;
-};
-
-export type Grid = Map<number, string>;
+import { Grid, Ship } from "../types";
 
 function randomizeShips() {
   const grid: Grid = new Map();
@@ -23,7 +18,7 @@ function randomizeShips() {
 function placeShip(ship: Ship, grid: Grid): void {
   const dir = (Math.random() > 0.5 && "X") || "Y";
   const start = Math.floor(Math.random() * 100) + 1;
-  if (grid.has(start)) {
+  if (grid.has(numToCoordinates(start))) {
     return placeShip(ship, grid);
   }
   const [row] = getRowCol(start);
@@ -68,7 +63,7 @@ function canFitLeftToRight(
 
   // check if cells are empty
   for (let i = 0; i < size; i++) {
-    if (grid.has(start + i)) return false;
+    if (grid.has(numToCoordinates(start + i))) return false;
   }
 
   return true;
@@ -76,7 +71,7 @@ function canFitLeftToRight(
 
 function fitLeftToRight(start: number, ship: Ship, grid: Grid) {
   for (let i = 0; i < ship.size; i++) {
-    grid.set(start + i, ship.name);
+    grid.set(numToCoordinates(start + i), ship.name);
   }
 }
 
@@ -94,14 +89,14 @@ function canFitRightToLeft(
 
   // check if cells are empty
   for (let i = 0; i < size; i++) {
-    if (grid.has(start - i)) return false;
+    if (grid.has(numToCoordinates(start - i))) return false;
   }
   return true;
 }
 
 function fitRightToLeft(start: number, ship: Ship, grid: Grid) {
   for (let i = 0; i < ship.size; i++) {
-    grid.set(start - i, ship.name);
+    grid.set(numToCoordinates(start - i), ship.name);
   }
 }
 
@@ -115,7 +110,7 @@ function canFitTopToBottom(
 
   // check if cells are empty
   for (let i = 0; i < size; i++) {
-    if (grid.has(start + 10 * i)) return false;
+    if (grid.has(numToCoordinates(start + 10 * i))) return false;
   }
 
   return true;
@@ -123,7 +118,7 @@ function canFitTopToBottom(
 
 function fitTopToBottom(start: number, ship: Ship, grid: Grid) {
   for (let i = 0; i < ship.size; i++) {
-    grid.set(start + 10 * i, ship.name);
+    grid.set(numToCoordinates(start + 10 * i), ship.name);
   }
 }
 
@@ -137,14 +132,14 @@ function canFitBottomToTop(
 
   // check if cells are empty
   for (let i = 0; i < size; i++) {
-    if (grid.has(start - 10 * i)) return false;
+    if (grid.has(numToCoordinates(start - 10 * i))) return false;
   }
   return true;
 }
 
 function fitBottomToTop(start: number, ship: Ship, grid: Grid) {
   for (let i = 0; i < ship.size; i++) {
-    grid.set(start - 10 * i, ship.name);
+    grid.set(numToCoordinates(start - 10 * i), ship.name);
   }
 }
 
@@ -153,6 +148,15 @@ function getKey(num: number) {
 }
 function getRowCol(num: number) {
   return getKey(num).split("_").map(Number);
+}
+
+function numToCoordinates(num: number) {
+  const letters = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
+  if (num === 100) {
+    return "J10";
+  }
+  const [row, col] = getRowCol(num);
+  return `${letters[col === 0 ? row - 1 : row]}${(col && col) || 10}`;
 }
 
 export default randomizeShips;
