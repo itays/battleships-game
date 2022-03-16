@@ -168,7 +168,11 @@ function reducer(state: GameState, action: GameAction): GameState {
   }
 }
 
-const GameLog: React.FC<{ logs: string[] }> = ({ logs }) => {
+type GameLogProps = {
+  logs: string[];
+};
+
+const GameLog: React.FC<GameLogProps> = ({ logs }) => {
   return (
     <div className="game_log mt-2 border-t-2">
       <h3>Game logs</h3>
