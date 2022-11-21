@@ -10,16 +10,9 @@ import {
   GameAction,
   PlayMovePayload,
   ResetPayload,
+  Ships,
 } from "../components/types";
 /* 
-state
-whose turn: 'computer' or 'user'
-isGameOver: false
-userShips - a Map with the user ships locations
-computerShips = a Map with the computer ships location.
-userActions = a Map to list each user turn's action
-computerActions = a Map to list each computer turn's action
-
 
 // turn logic
 on each turn user selects a cell in the oponent's board
@@ -39,8 +32,22 @@ const initial: GameState = {
   userHits: new Map(),
   computerShips: new Map(),
   computerHits: new Map(),
-  userScore: 0,
-  computerScore: 0,
+  userScore: {
+    [Ships.DESTROYER]: 0,
+    [Ships.SUBMARINE]: 0,
+    [Ships.CRUISER]: 0,
+    [Ships.BATTLESHIP]: 0,
+    [Ships.CARRIER]: 0,
+    totalScore: 0,
+  },
+  computerScore: {
+    [Ships.DESTROYER]: 0,
+    [Ships.SUBMARINE]: 0,
+    [Ships.CRUISER]: 0,
+    [Ships.BATTLESHIP]: 0,
+    [Ships.CARRIER]: 0,
+    totalScore: 0,
+  },
   logs: [],
 };
 
@@ -121,6 +128,11 @@ function reducer(state: GameState, action: GameAction): GameState {
       switch (state.whoGoes) {
         case Player.USER: {
           const hitOrMiss = state.computerShips.get(point) || "miss";
+          const nextScore = { ...state.userScore };
+          if (hitOrMiss !== "miss") {
+            // @ts-ignore
+            nextScore[hitOrMiss] += 1;
+          }
           const newHits = new Map(Array.from(state.userHits)).set(
             point,
             hitOrMiss
@@ -135,8 +147,7 @@ function reducer(state: GameState, action: GameAction): GameState {
                 hitOrMiss === "miss" ? "miss!" : "hit!"
               }`,
             ],
-            userScore:
-              hitOrMiss !== "miss" ? state.userScore + 1 : state.userScore,
+            userScore: nextScore, // continue from here
           };
         }
         case Player.COMPUTER: {

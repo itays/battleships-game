@@ -1,13 +1,13 @@
-import { Grid, Ship } from "../types";
+import { Grid, Ship, Ships } from "../types";
 
 function randomizeShips() {
   const grid: Grid = new Map();
   const ships: Ship[] = [
-    { size: 2, name: "destroyer" },
-    // { size: 3, name: "submarine" },
-    // { size: 3, name: "cruiser" },
-    // { size: 4, name: "battleship" },
-    // { size: 5, name: "carrier" },
+    { size: 2, name: Ships.DESTROYER },
+    { size: 3, name: Ships.SUBMARINE },
+    { size: 3, name: Ships.CRUISER },
+    { size: 4, name: Ships.BATTLESHIP },
+    { size: 5, name: Ships.CARRIER },
   ];
   for (const ship of ships) {
     placeShip(ship, grid);

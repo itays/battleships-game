@@ -8,6 +8,16 @@ export type Ship = {
   name: string;
 };
 
+export enum Ships {
+  DESTROYER = "DESTROYER",
+  SUBMARINE = "SUBMARINE",
+  CRUISER = "CRUISER",
+  BATTLESHIP = "BATTLESHIP",
+  CARRIER = "CARRIER",
+}
+
+export type Score = Record<Ships, number> & { totalScore: number };
+
 export type Grid = Map<string, string>;
 
 export type GameState = {
@@ -17,8 +27,8 @@ export type GameState = {
   userHits: Grid;
   computerShips: Grid;
   computerHits: Grid;
-  userScore: number;
-  computerScore: number;
+  userScore: Score;
+  computerScore: Score;
   message: string;
   logs: string[];
 };
